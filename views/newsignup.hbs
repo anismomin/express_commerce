@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="css/style.css">
+        
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/admin.css">
+        <!--[if lt IE 9]>
+            <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->  
+	]
+    </head>
+    <body>
+        
+        <div class="container">
+
+			<div class="row" style="margin-top:20px">
+			    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+					<form role="form">
+						<fieldset>
+							<h2>Please Sign In</h2>
+							<hr class="colorgraph">
+							<div class="form-group">
+			                    <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address">
+							</div>
+							<div class="form-group">
+			                    <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password">
+							</div>
+							<span class="button-checkbox">
+								<button type="button" class="btn" data-color="info">Remember Me</button>
+			                    <input type="checkbox" name="remember_me" id="remember_me" checked="checked" class="hidden">
+								<a href="" class="btn btn-link pull-right">Forgot Password?</a>
+							</span>
+							<hr class="colorgraph">
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+			                        <input type="submit" class="btn btn-lg btn-success btn-block" value="Sign In">
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<a href="" class="btn btn-lg btn-primary btn-block">Register</a>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+
+		</div>
+
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        
+        <script>
+	
+		jQuery(function(){
+		    jQuery('.button-checkbox').each(function(){
+				var  = jQuery(this),
+					 = .find('button'),
+					 = .find('input:checkbox'),
+					color = .data('color'),
+					settings = {
+							on: {
+								icon: 'glyphicon glyphicon-check'
+							},
+							off: {
+								icon: 'glyphicon glyphicon-unchecked'
+							}
+					};
+
+				.on('click', function () {
+					.prop('checked', !.is(':checked'));
+					.triggerHandler('change');
+					updateDisplay();
+				});
+
+				.on('change', function () {
+					updateDisplay();
+				});
+
+				function updateDisplay() {
+					var isChecked = .is(':checked');
+					// Set the button's state
+					.data('state', (isChecked) ? "on" : "off");
+
+					// Set the button's icon
+					.find('.state-icon')
+						.removeClass()
+						.addClass('state-icon ' + settings[.data('state')].icon);
+
+					// Update the button's color
+					if (isChecked) {
+						
+							.removeClass('btn-default')
+							.addClass('btn-' + color + ' active');
+					}
+					else
+					{
+						
+							.removeClass('btn-' + color + ' active')
+							.addClass('btn-default');
+					}
+				}
+				function init() {
+					updateDisplay();
+					// Inject the icon if applicable
+					if (.find('.state-icon').length == 0) {
+						.prepend('<i class="state-icon ' + settings[.data('state')].icon + '"></i> ');
+					}
+				}
+				init();
+			});
+		});
+
+		</script>
+
+    </body>
+</html>
+
+
+
+

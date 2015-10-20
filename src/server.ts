@@ -12,7 +12,7 @@ var methodOverride = require('method-override');
 var connectMongo = require('connect-mongo');
 
 var app: express.Express = express();
-var hbs: any = require('hbs');
+var hbs: any = require('express-hbs');
 
 var MongoStore = connectMongo(expressSession);
 var passportConfig = require('./auth/passport-config');
@@ -24,8 +24,17 @@ import signupRoute = require('./routes/signup');
 import usersRoute = require('./routes/users');
 import signinRoute = require('./routes/signin');
 
-app.set('views', path.join(__dirname, './../views'));
+// set the view engine
 app.set('view engine', 'hbs');
+// configure the view engine 
+app.engine('hbs', hbs.express4({
+	defaultLayout: path.join(__dirname, './../views/layouts/main.hbs'),
+	partialsDir: path.join(__dirname, './../views/partials'),
+	layoutsDir: path.join(__dirname, './../views/layouts')
+}));
+
+app.set('views', path.join(__dirname, './../views'));
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

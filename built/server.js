@@ -10,21 +10,24 @@ var flash = require('connect-flash');
 var methodOverride = require('method-override');
 var connectMongo = require('connect-mongo');
 var app = express();
-var hbs = require('hbs');
+var hbs = require('express-hbs');
 var MongoStore = connectMongo(expressSession);
 var passportConfig = require('./auth/passport-config');
 var restrict = require('./auth/restrict');
 passportConfig();
 var indexRoute = require('./routes/home');
-var aboutRoute = require('./routes/about');
-var contactRoute = require('./routes/contact');
 var signupRoute = require('./routes/signup');
 var usersRoute = require('./routes/users');
 var signinRoute = require('./routes/signin');
-var sidebarLeftRoute = require('./routes/sidebar-left');
-var sidebarRightRoute = require('./routes/sidebar-right');
-app.set('views', path.join(__dirname, './../views'));
+// set the view engine
 app.set('view engine', 'hbs');
+// configure the view engine 
+app.engine('hbs', hbs.express4({
+    defaultLayout: path.join(__dirname, './../views/layouts/main.hbs'),
+    partialsDir: path.join(__dirname, './../views/partials'),
+    layoutsDir: path.join(__dirname, './../views/layouts')
+}));
+app.set('views', path.join(__dirname, './../views'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride(function (req, res) {
@@ -48,13 +51,9 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', indexRoute);
-app.use('/about', aboutRoute);
-app.use('/users', usersRoute);
-app.use('/contact', contactRoute);
 app.use('/signup', signupRoute);
 app.use('/signin', signinRoute);
-app.use('/sidebar-left', sidebarLeftRoute);
-app.use('/sidebar-right', sidebarRightRoute);
+app.use('/users', usersRoute);
 app.use('/dashboard', function (req, res, next) {
     res.render('dashboard', { title: 'Dashbaord | Admin' });
 });
